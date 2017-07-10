@@ -1,8 +1,9 @@
+import time
+import datetime
 import aiohttp
 import discord
 import time
 import utils as u
-
 
 async def execute(context: u.CommandContext):
     async with aiohttp.get("https://www.theartex.net/cloud/api/?sec=announcements") as r:
@@ -13,11 +14,11 @@ async def execute(context: u.CommandContext):
 
             message = '\n' + lang['timestamp_label'] + '\n' + lang['timestamp'] + '\n\n' + lang['message_label'] + \
                       '\n' + lang['message']
-            message = message.format(user_id=context.message.author.id, timestamp=js['data'][0]['trn_date'], message=js[
+            message = message.format(user_id=context.message.author.id, timestamp=js['data'][0]['trn_date'].strftime("%B %d, %Y - %I:%M %p"), message=js[
                 'data'][0]['message'])
 
             title = lang['title']
-            title = title.format(user_id=context.message.author.id, timestamp=js['data'][0]['trn_date'], message=js[
+            title = title.format(user_id=context.message.author.id, timestamp=js['data'][0]['trn_date'].strftime("%B %d, %Y - %I:%M %p"), message=js[
                 'data'][0]['message'])
 
             time_took = int(round(time.time() * 1000)) - context.start_time
